@@ -113,7 +113,7 @@ function enviar-reporte{
         $message.To.Add($to);
     }
     $message.Subject = "Informe Automático de Actualización de Windows";
-    $log_loc = "C:\Users\pasante\Documents\Script Actualizacion (local)\logs\$(get-date -f yyyy-MM-dd)-WindowsUpdate.log"
+    $log_loc = "C:\Users\pasante\Documents\Script Actualizacion\logs\$(get-date -f yyyy-MM-dd)-WindowsUpdate.log"
     $message.Body = "Se adjunta log de instalación de actualizaciones.";
     $Attachment  = New-Object System.Net.Mail.Attachment($log_loc)
     $message.Attachments.Add($Attachment)
@@ -181,7 +181,6 @@ while($ban -ne 0){
         5 {instalar-manual}       #instala actualizaciones disponibles para el equipo especificado mediate ingreso de nombre del equipo manualmente
         6 {instalar-archivo}      #instala actualizaciones disponibles para para los equipos especificado mediate ingreso de un archivo con los nombres de estos
         7 {Write-Host "saliendo..."; $ban = 0} 
-        8 {enviar-reporte}
 
         default {Write-Host "opción no válida"}
     }

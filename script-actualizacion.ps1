@@ -15,10 +15,11 @@ function historial-manual{
         #si se guarda log
         $log_loc = Read-Host -Prompt "Ingrese la ruta completa a la carpeta donde quiera guardar el log" #ruta completa de la carpeta donde guardar los logs
         $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd HH:mm)-ActPendientes.log" #se añade el nombre del archivo log a la ruta
+        #revision de historial de actualizaciones
         Get-WUHistory -ComputerName $Equipos -MaxDate (Get-Date).AddDays(-$dias) | 
         Select-Object -Property ComputerName, Result, Date, Title, KB, Description |
         Format-Table -AutoSize -Wrap | Out-File -Encoding utf8 -FilePath $log_loc -Force
-        Write-Host "archivo guardado"
+        Write-Host "archivo guardado" #confirmación de log
     }
     elseif ($r -eq "No"){
         Get-WUHistory -ComputerName $Equipos -MaxDate (Get-Date).AddDays(-$dias) | 

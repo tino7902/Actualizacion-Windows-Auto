@@ -1,6 +1,41 @@
-﻿# ==============================
+﻿#
+#requires -version 4
+<#
+.SYNOPSIS
+    Revisa si hay actualizaciones de windows disponibles y las realiza.
+.DESCRIPTION
+    El script genera una lista de las actualizaciones disponibles, y si se desea, las aplica
+.INPUTS
+    [System.String]
+.OUTPUTS
+    [System.Object]
+.NOTES
+    Version:        1.0
+    Author:         Santino Gianninoto
+    Creation Date:  Febrero 2022
+    Purpose/Change: Actualizar windows automaticamente de manera remota
+    Useful URLs: localhost
+.EXAMPLE
+    PS C:\>.\Script-Actualizacion.ps1
+    "Que acción desea ejecutar:" 2
+
+    Este ejemplo devuelve el historial de actualizaciones de los equipos especificado mediate ingreso de un archivo con los nombres de estos.
+.EXAMPLE
+    PS C:\>.\Script-Actualizacion.ps1
+    "Que acción desea ejecutar:" 4
+
+    Este ejemplo revisa si hay actualizaciones disponibles para los equipos especificado mediate ingreso de un archivo con los nombres de estos
+.EXAMPLE
+    PS C:\>.\Script-Actualizacion.ps1
+    "Que acción desea ejecutar:" 6
+
+    Este ejemplo instala actualizaciones disponibles para para los equipos especificado mediate ingreso de un archivo con los nombres de estos
+#>
+
+# ==============================
 # Importación de módulo requerido
 # ============================== 
+Install-Module PSWindowsUpdate
 Import-Module PSWindowsUpdate
 
 function historial-manual{
@@ -121,13 +156,13 @@ function enviar-reporte($log_loc){
     # ===================================================
     # Configuración SMPT: usuario, contraseña, SSL, etc.
     # ===================================================
-    $email_username = "helpdesk@coopexsanjo.org.py" #usuario de correo
-    $email_password = "Paraguay_2022" #contraseña del correo
-    $email_smtp_host = "mail.coopexsanjo.org.py" #servidor de correo
+    $email_username = "helpdesk@gmail.org.py" #usuario de correo
+    $email_password = "contraseña segura" #contraseña del correo
+    $email_smtp_host = "mail.mail.org.py" #servidor de correo
     $email_smtp_port = 587 #puerto
     $email_smtp_SSL = 1 #usar ssl -> 1
-    $email_from_address = "helpdesk@coopexsanjo.org.py" #correo desde el cual enviar
-    $email_to_addressArray = @("mirun@coopexsanjo.org.py", "dquinonez@coopexsanjo.org.py") #correos a los que enviar
+    $email_from_address = "helpdesk@gmail.org.py" #correo desde el cual enviar
+    $email_to_addressArray = @("mail-1@gmail.org.py", "mail-2@gmail.org.py") #correos a los que enviar
 
     # ======================================================================
     # Configuración del mensaje: de, para quienes, asunto, cuerpo, adjuntar

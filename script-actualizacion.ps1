@@ -23,7 +23,7 @@
 .EXAMPLE
     PS C:\>.\Script-Actualizacion.ps1
     "Que acción desea ejecutar:" 4
-
+cd
     Este ejemplo revisa si hay actualizaciones disponibles para los equipos especificado mediate ingreso de un archivo con los nombres de estos
 .EXAMPLE
     PS C:\>.\Script-Actualizacion.ps1
@@ -49,7 +49,7 @@ function historial-manual{
     if ($r -eq "Si"){
         #si se guarda log
         $log_loc = Read-Host -Prompt "Ingrese la ruta completa a la carpeta donde quiera guardar el log" #ruta completa de la carpeta donde guardar los logs
-        $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd HH:mm)-ActPendientes.log" #se añade el nombre del archivo log a la ruta
+        $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd)-HistorialAct.log" #se añade el nombre del archivo log a la ruta
         #revision de historial de actualizaciones
         Get-WUHistory -ComputerName $Equipos -MaxDate (Get-Date).AddDays(-$dias) | 
         Select-Object -Property ComputerName, Result, Date, Title, KB, Description |
@@ -76,7 +76,7 @@ function historial-archivo{
     if ($r -eq "Si"){
         #si se guarda log
         $log_loc = Read-Host -Prompt "Ingrese la ruta completa a la carpeta donde quiera guardar el log" #ruta completa de la carpeta donde guardar los logs
-        $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd HH:mm)-ActPendientes.log" #se añade el nombre del archivo log a la ruta
+        $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd)-HistorialAct.log" #se añade el nombre del archivo log a la ruta
         #revision de historial de actualizaciones
         Get-WUHistory -ComputerName $Equipos -MaxDate (Get-Date).AddDays(-$dias)|
         Select-Object -Property ComputerName, Result, Date, Title, KB, Description|
@@ -105,10 +105,10 @@ function revisar-manual{
     if ($r -eq "Si"){
         #si se guarda log
         $log_loc = Read-Host -Prompt "Ingrese la ruta completa a la carpeta donde quiera guardar el log" #ruta completa de la carpeta donde guardar los logs
-        $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd HH:mm)-ActPendientes.log" #se añade el nombre del archivo log a la ruta
+        $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd)-ActPendientes.log" #se añade el nombre del archivo log a la ruta
         #revision de actualizaciones pendientes
         Get-WindowsUpdate -ComputerName $Equipos | Format-Table -AutoSize -Wrap | 
-        Out-File -Encoding utf8 -FilePath $nom -ErrorAction SilentlyContinue
+        Out-File -Encoding utf8 -FilePath $log_loc -ErrorAction SilentlyContinue
         Write-Host "archivo guardado" #confirmacion de guardado de logs
     }
     elseif ($r -eq "No"){
@@ -136,10 +136,10 @@ function revisar-archivo{
     if ($r -eq "Si"){
         #si se guarda log
         $log_loc = Read-Host -Prompt "Ingrese la ruta completa a la carpeta donde quiera guardar el log" #ruta completa de la carpeta donde guardar los logs
-        $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd HH:mm)-ActPendientes.log" #se añade el nombre del archivo log a la ruta
+        $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd)-ActPendientes.log" #se añade el nombre del archivo log a la ruta
         #revision de actualizaciones pendientes
         Get-WindowsUpdate -ComputerName $Equipos | Format-Table -AutoSize -Wrap | 
-        Out-File -Encoding utf8 -FilePath $nom -ErrorAction SilentlyContinue
+        Out-File -Encoding utf8 -FilePath $log_loc -ErrorAction SilentlyContinue
         Write-Host "log guardado" #confirmacion de guardado de logs
     }
     elseif ($r -eq "No"){
@@ -197,7 +197,7 @@ function instalar-manual{
     # ============================== 
     $Equipos = Read-Host -Prompt "Ingrese el nombre del equipo" #nombre o IP del equipo a actualizar
     $log_loc = Read-Host -Prompt "Ingrese la ruta completa a la carpeta donde quiera guardar el log" #ruta completa de la carpeta donde guardar los logs
-    $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd HH:mm)-WindowsUpdate.log" #se añade el nombre del archivo log a la ruta
+    $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd)-WindowsUpdate.log" #se añade el nombre del archivo log a la ruta
 
     # ===============================
     # Instalación de actualizaciones
@@ -206,7 +206,7 @@ function instalar-manual{
     if ($r -eq "si"){
         #instala actualizaciones y genera un log - reinicio autománico
         Get-WindowsUpdate -ComputerName $Equipos -Install -AcceptAll -AutoReboot -Verbose |
-        Format-Table -AutoSize -Wrap | Out-File Out-File -Encoding utf8 -FilePath $log_loc -Force
+        Format-Table -AutoSize -Wrap | Out-File -Encoding utf8 -FilePath $log_loc -Force
         Write-Host "log guardado" #confirmación de guardado de log
     }
     elseif ($r -eq "no"){
@@ -228,7 +228,7 @@ function instalar-archivo{
     # ============================== 
     $Equipos = Get-Content -Path (Read-Host -Prompt "Ingrese la ubicación del archivo")
     $log_loc = Read-Host -Prompt "Ingrese la ruta completa a la carpeta donde quiera guardar el log"
-    $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd HH:mm)-WindowsUpdate.log"
+    $log_loc = "$($log_loc)/$(get-date -Format yyyy-MM-dd)-WindowsUpdate.log"
     
     # ===============================
     # Instalación de actualizaciones
